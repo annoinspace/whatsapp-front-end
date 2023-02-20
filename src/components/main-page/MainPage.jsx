@@ -10,6 +10,7 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi"
 
 import SearchChat from "./SearchChat"
 import MyProfileSettings from "./MyProfileSettings"
+import OpenChat from "./OpenChat"
 
 export default function MainPage() {
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
@@ -31,7 +32,7 @@ export default function MainPage() {
             <>
               <div id="green-profile-banner">
                 <div className="d-flex align-items-center w-100 p-3">
-                  <AiOutlineArrowLeft onClick={setViewProfileSettingsFalse} />
+                  <AiOutlineArrowLeft style={{ cursor: "pointer" }} onClick={setViewProfileSettingsFalse} />
                   <h5 className="ml-3">Profile</h5>
                 </div>
               </div>
@@ -77,7 +78,7 @@ export default function MainPage() {
         </div>
 
         <div id="open-chat" className="border">
-          openchat
+          <OpenChat />
         </div>
       </div>
     </div>

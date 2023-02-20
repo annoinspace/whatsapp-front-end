@@ -14,7 +14,7 @@ export default function SingleChatSidebar() {
                 <div>Asdren J.</div>
                 <div className="gray-text">07:24</div>
               </div>
-              <div className="gray-text truncate ">hello hello hello hello hello ...........................</div>
+              <div className="gray-text truncate ">hello hello hi hello hello hi hello hello </div>
             </div>
           </div>
           <div className="side-chat-border"> </div>
