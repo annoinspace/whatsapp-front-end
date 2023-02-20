@@ -1,0 +1,76 @@
+:root {
+  --whatsapp-green: #25d366;
+  --light-gray: rgb(232, 241, 235);
+  --dark-gray: #8a8c8b;
+}
+* {
+  box-sizing: border-box;
+}
+.redborder {
+  border: 1px solid red;
+}
+
+.gray-text {
+  color: var(--dark-gray);
+}
+
+#main-page-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+#main-page-wrapper {
+  min-height: 100%;
+
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+#green-banner {
+  background-color: var(--whatsapp-green);
+  height: 20px;
+  width: 100vw;
+}
+
+#my-profile {
+  background-color: var(--light-gray);
+  height: 50px;
+}
+
+/* --------------left side user chat display -------------*/
+#all-chats {
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+}
+
+.user-profile-image {
+  aspect-ratio: 1/1;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid var(--light-gray);
+
+  background-size: cover;
+  background-position: center;
+}
+
+#open-chat {
+  flex-grow: 3;
+  max-height: 100%;
+  background-color: var(--light-gray);
+}
+
+.minimised-chat {
+  width: 400px;
+}
+
+.truncate {
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.list-group-item {
+  border: none;
+}
