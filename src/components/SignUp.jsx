@@ -12,11 +12,60 @@ const SignUp = () => {
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
 
-  const newUser = {
-    username: username,
-    email: email,
-    password: password,
-    role: "User",
+  const navigate = useNavigate();
+
+  const registerUser = async () => {
+    try {
+      setPostSuccess(false);
+      setErrorOccurred(false);
+      setLoading(true);
+
+      const newUser = {
+        username: username,
+        email: email,
+        password: password,
+        role: "User",
+      };
+
+      const config = {
+        method: "POST",
+        body: JSON.stringify(newUser),
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      };
+
+      const response = await fetch(
+        process.env.REACT_APP_BE_URL + "/users/me",
+        config
+      );
+
+      if (response.ok) {
+        setPostSuccess(true);
+        navigate("/");
+      } else {
+        setErrorOccurred(true);
+      }
+    } catch (error) {
+      setErrorOccurred(true);
+    } finally {
+      setLoading(false);
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setPassword2("");
+      infoTimeoutFunc(3000);
+    }
+  };
+
+  const resetAllState = () => {
+    setErrorOccurred(false);
+    setPostSuccess(false);
+    setLoading(false);
+  };
+
+  const infoTimeoutFunc = (time) => {
+    const infoTimeout = setTimeout(resetAllState, time);
   };
 
   const handleSubmit = (e) => {
@@ -32,11 +81,13 @@ const SignUp = () => {
     ) {
       if (password !== password2) {
         setErrorOccurred(true);
+        infoTimeoutFunc(2000);
       } else {
-        newUser();
+        registerUser();
       }
     } else {
       setErrorOccurred(true);
+      infoTimeoutFunc(2000);
     }
   };
 
