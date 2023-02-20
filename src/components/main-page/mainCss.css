@@ -2,6 +2,7 @@
   --whatsapp-green: #25d366;
   --light-gray: rgb(237, 240, 239);
   --dark-gray: #8a8c8b;
+  --darkest-gray: #606060;
 }
 * {
   box-sizing: border-box;
@@ -31,12 +32,25 @@
   height: 20px;
   width: 100vw;
 }
-
+/* -------------- top profile section---------------- */
 #my-profile {
   background-color: var(--light-gray);
-  height: 50px;
+  height: auto;
 }
-
+.my-profile-image {
+  aspect-ratio: 1/1;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--whatsapp-green);
+  background-size: cover;
+  background-position: center;
+}
+.gap {
+  gap: 10px;
+  color: var(--darkest-gray);
+  font-size: 20px;
+}
 /* --------------left side user chat display -------------*/
 #all-chats {
   height: calc(100vh - 70px);
