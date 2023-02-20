@@ -1,6 +1,6 @@
 :root {
   --whatsapp-green: #25d366;
-  --light-gray: rgb(232, 241, 235);
+  --light-gray: rgb(237, 240, 239);
   --dark-gray: #8a8c8b;
 }
 * {
@@ -73,4 +73,10 @@
 
 .list-group-item {
   border: none;
+}
+.side-chat-border {
+  margin-left: 60px;
+  border-bottom: 1px solid var(--light-gray);
+  height: 0px;
+  margin-top: 10px;
 }
