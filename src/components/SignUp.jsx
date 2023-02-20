@@ -12,13 +12,41 @@ const SignUp = () => {
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
 
+  const newUser = {
+    username: username,
+    email: email,
+    password: password,
+    role: "User",
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      email &&
+      username &&
+      password &&
+      password2 &&
+      !loading &&
+      !errorOccurred &&
+      !postSuccess
+    ) {
+      if (password !== password2) {
+        setErrorOccurred(true);
+      } else {
+        newUser();
+      }
+    } else {
+      setErrorOccurred(true);
+    }
+  };
+
   return (
     <>
       <div
         className="w-50"
         style={{
             float: "left",
-          height: "56vh",
+          height: "61.5vh",
           backgroundImage: `url(${process.env.PUBLIC_URL}/images/whatsapp-promo.webp)`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -38,7 +66,7 @@ const SignUp = () => {
           }}
         >
           <h2>Create an account</h2>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Row>
               <Form.Group as={Col} controlId="formGridEmail">
                 <Form.Label>Email</Form.Label>
@@ -108,6 +136,11 @@ const SignUp = () => {
               Submit
             </Button>
           </Form>
+          <div className="mt-4">
+            <Link to="/login" className="text-dark">
+              ...or login!
+            </Link>
+          </div>
         </div>
       </div>
     </>
