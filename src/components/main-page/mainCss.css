@@ -1,5 +1,6 @@
 :root {
   --whatsapp-green: #25d366;
+  --whatsapp-dark-green: #075e54;
   --light-gray: rgb(237, 240, 239);
   --dark-gray: #8a8c8b;
   --darkest-gray: #606060;
@@ -14,7 +15,13 @@
 .gray-text {
   color: var(--dark-gray);
 }
+#left-side-wrapper {
+  flex-grow: 1;
+  min-width: 400px;
+  max-width: 400px;
 
+  box-sizing: border-box;
+}
 #main-page-container {
   height: 100vh;
   width: 100vw;
@@ -45,25 +52,56 @@
   border: 1px solid var(--whatsapp-green);
   background-size: cover;
   background-position: center;
+  cursor: pointer;
 }
-.gap {
-  gap: 10px;
+#profileSettingsImage {
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--light-gray);
+}
+#my-profile-image-large {
+  aspect-ratio: 1/1;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 1px solid var(--whatsapp-green);
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+#my-profile-your-name {
+  background-color: white;
+}
+#my-profile-about {
+  background-color: white;
+}
+.main-icons {
+  gap: 15px;
   color: var(--darkest-gray);
-  font-size: 20px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+#green-profile-banner {
+  background-color: var(--whatsapp-dark-green);
+  color: white;
+  height: 100px;
+  display: flex;
+  align-items: end;
 }
 /* --------------left side user chat display -------------*/
 #all-chats {
   height: calc(100vh - 70px);
   overflow-y: scroll;
 }
-
 .user-profile-image {
   aspect-ratio: 1/1;
   height: 50px;
   width: 50px;
   border-radius: 50%;
   border: 1px solid var(--light-gray);
-
   background-size: cover;
   background-position: center;
 }
@@ -76,6 +114,11 @@
 
 .minimised-chat {
   width: 400px;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+.minimised-chat:hover {
+  background-color: var(--light-gray);
 }
 
 .truncate {
