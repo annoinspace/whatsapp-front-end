@@ -5,6 +5,7 @@ export const SET_HISTORY = "SET_HISTORY"
 export const NEW_MESSAGE = "NEW_MESSAGE"
 export const VIEW_PROFILE_IMAGE = "VIEW_PROFILE_IMAGE"
 export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
+export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
 
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
@@ -158,5 +159,12 @@ export const closeFullProfileImageAction = () => {
   return {
     type: "CLOSE_FULL_PROFILE_IMAGE",
     payload: false
+  }
+}
+
+export const toggleProfileImageOptions = (boolean) => {
+  return {
+    type: "TOGGLE_PROFILE_IMAGE_OPTIONS",
+    payload: boolean
   }
 }

@@ -3,7 +3,8 @@ import profileReducer from "../reducers/profile.js"
 
 const mainReducer = combineReducers({
   loadedProfile: profileReducer,
-  showEnlargedProfileImage: profileReducer
+  showEnlargedProfileImage: profileReducer,
+  toggleProfileImageOptionsReducer: profileReducer
 })
 
 const store = configureStore({

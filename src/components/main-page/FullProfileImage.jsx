@@ -4,7 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { closeFullProfileImageAction } from "../../redux/actions/profileAction"
 
-export default function FullProfileImage({ image }) {
+export default function FullProfileImage({ avatar }) {
   const dispatch = useDispatch()
   const handleClose = () => {
     dispatch(closeFullProfileImageAction())
@@ -14,7 +14,7 @@ export default function FullProfileImage({ image }) {
       <div id="full-profile-image">
         <AiOutlineCloseCircle id="profile_image-close" onClick={handleClose} />
         <div id="full-profile-image-wrapper">
-          <Image src={image} style={{ height: "400px", width: "400px", aspectRatio: "1/1" }} />
+          <Image src={avatar} style={{ height: "400px", width: "400px", aspectRatio: "1/1" }} />
         </div>
       </div>
     </>

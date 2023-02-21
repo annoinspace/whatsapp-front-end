@@ -189,6 +189,18 @@
   cursor: pointer;
 }
 
+#crop-image {
+  height: 300px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#modal-test {
+  position: absolute;
+  right: 0;
+}
 /* --------------left side user chat display -------------*/
 #all-chats {
   height: calc(100vh - 70px);

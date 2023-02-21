@@ -4,15 +4,17 @@ import {
   SET_HISTORY,
   SET_USER_INFO,
   VIEW_PROFILE_IMAGE,
-  CLOSE_FULL_PROFILE_IMAGE
+  CLOSE_FULL_PROFILE_IMAGE,
+  TOGGLE_PROFILE_IMAGE_OPTIONS
 } from "../actions/profileAction"
 
 const initialState = {
   currentUser: null, //contains current logged in user info object
   activeChat: null, // currently active chat room
   chatList: [], // list of chats user is a part of
-  allUsers: [],
-  viewProfileImage: false // object array of all users in DB
+  allUsers: [], // object array of all users in DB
+  viewProfileImage: false,
+  profileImageOptions: false
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -41,6 +43,11 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         viewProfileImage: action.payload
+      }
+    case TOGGLE_PROFILE_IMAGE_OPTIONS:
+      return {
+        ...state,
+        profileImageOptions: action.payload
       }
 
     default:
