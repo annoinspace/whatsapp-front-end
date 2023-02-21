@@ -1,12 +1,16 @@
 import React, { useState } from "react"
+import { useSelector } from "react-redux"
 import { Image } from "react-bootstrap"
 import blankImage from "../../assets/blank-profile-picture.png"
 import { RiPencilFill } from "react-icons/ri"
 import { BsCameraFill } from "react-icons/bs"
 import ProfileImageOptions from "./ProfileImageOptions"
+import FullProfileImage from "./FullProfileImage"
 
 export default function MyProfileSettings() {
   const [hoveredImage, setHoveredImage] = useState(false)
+
+  const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const handleHover = () => {
     setHoveredImage(true)
   }
@@ -22,6 +26,8 @@ export default function MyProfileSettings() {
 
   return (
     <>
+      {showFullScreenProfileImage === true && <FullProfileImage image={profileImage} />}
+
       <div id="profileSettingsImage">
         <div onMouseEnter={handleHover} onMouseLeave={handleLeave} id="my-profile-image-container">
           {hoveredImage === true && (

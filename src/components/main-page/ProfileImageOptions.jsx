@@ -1,15 +1,16 @@
 import React, { useState } from "react"
-
+import { useDispatch } from "react-redux"
 import { ListGroup } from "react-bootstrap"
+import { showFullProfileImageAction } from "../../redux/actions/profileAction"
 
 export default function ProfileImageOptions() {
-  const [viewProfilePhoto, setViewProfilePhoto] = useState(false)
+  const dispatch = useDispatch()
+
   const viewPhotoHandler = () => {
-    setViewProfilePhoto(true)
+    dispatch(showFullProfileImageAction())
   }
   return (
     <>
-      {viewProfilePhoto === true && <div>Profile Image Clicked </div>}
       <ListGroup id="profileImageOptions">
         <ListGroup.Item className="p-2 image-options-list-item " onClick={viewPhotoHandler}>
           View Photo
