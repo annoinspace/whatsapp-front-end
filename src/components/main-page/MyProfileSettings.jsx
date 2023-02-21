@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Image } from "react-bootstrap"
 import blankImage from "../../assets/blank-profile-picture.png"
@@ -9,18 +9,31 @@ import FullProfileImage from "./FullProfileImage"
 
 export default function MyProfileSettings() {
   const [hoveredImage, setHoveredImage] = useState(false)
+  const [showImageOptions, setImageOptions] = useState(false)
 
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
-  const handleHover = () => {
+  const handleHover = (e) => {
     setHoveredImage(true)
   }
-  const handleLeave = () => {
-    setHoveredImage(false)
+  const handleLeave = (e) => {
+    if (!showImageOptions && e.target.id !== "my-profile-image-container") {
+      setHoveredImage(false)
+    } else {
+      setHoveredImage(true)
+    }
   }
 
   const handleHoveredClick = () => {
     setHoveredImage(true)
+    setImageOptions(true)
   }
+  useEffect(() => {
+    if (showFullScreenProfileImage === true) {
+      console.log("show image is true")
+      setImageOptions(false)
+      setHoveredImage(false)
+    }
+  }, [showImageOptions, showFullScreenProfileImage, hoveredImage])
 
   let profileImage = blankImage
 
@@ -40,7 +53,7 @@ export default function MyProfileSettings() {
           )}
           <Image src={profileImage} id="my-profile-image-large" style={{ height: "200px" }} />
         </div>
-        <ProfileImageOptions />
+        {showImageOptions === true && <ProfileImageOptions />}
       </div>
       <div id="my-profile-your-name" className="p-3 border">
         <div className="profile-section-small-header">your name</div>

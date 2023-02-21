@@ -125,6 +125,7 @@
   color: var(--whatsapp-dark-green);
   font-size: var(--small-font);
   margin-bottom: 10px;
+  text-align: left;
 }
 #name-info {
   user-select: none;
