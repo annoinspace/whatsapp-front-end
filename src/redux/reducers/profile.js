@@ -3,7 +3,7 @@ import {
     SET_CHATS,
     SET_HISTORY,
     SET_USER_INFO,
-  } from "../actions/profileActions";
+  } from "../actions/profileAction";
   
   const initialState = {
     currentUser: null, //contains current logged in user info object
