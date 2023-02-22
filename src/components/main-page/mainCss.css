@@ -172,7 +172,7 @@
   flex-direction: column;
   justify-content: center;
 }
-#full-profile-image-wrapper {
+hoveredProfileImage#full-profile-image-wrapper {
   height: 400px;
   width: 400px;
   aspect-ratio: 1/1;
@@ -180,6 +180,7 @@
   align-items: center;
   overflow: hidden;
   align-self: center;
+  z-index: 1;
 }
 #profile_image-close {
   font-size: 30px;

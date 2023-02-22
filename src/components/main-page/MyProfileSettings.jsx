@@ -6,14 +6,20 @@ import { RiPencilFill } from "react-icons/ri"
 import { BsCameraFill } from "react-icons/bs"
 import ProfileImageOptions from "./ProfileImageOptions"
 import FullProfileImage from "./FullProfileImage"
-import { toggleProfileImageOptions } from "../../redux/actions/profileAction"
+import { changeAbout, changeDisplayName, toggleProfileImageOptions } from "../../redux/actions/profileAction"
 
 export default function MyProfileSettings() {
   const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
+  // const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+  const testUser = useSelector((state) => state.loadedProfile.currentUserTest)
+  const profileImage = testUser.avatar
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
-
+  const [editingAbout, setEditingAbout] = useState(false)
+  const [about, setAbout] = useState(testUser.about)
+  const [isEditingDisplayName, setIsEditingDisplayName] = useState(false)
+  const [displayName, setDisplayName] = useState(testUser.displayName)
   const handleHover = (e) => {
     setHoveredImage(true)
   }
@@ -29,6 +35,31 @@ export default function MyProfileSettings() {
     setHoveredImage(true)
     dispatch(toggleProfileImageOptions(true))
   }
+  const handleAboutEdit = () => {
+    setEditingAbout(true)
+  }
+
+  const handleAboutChange = (e) => {
+    setAbout(e.target.value)
+  }
+
+  const handleDisplayNameChange = (event) => {
+    setDisplayName(event.target.value)
+  }
+
+  const handleAboutSave = () => {
+    setEditingAbout(false)
+    console.log("about saved", about)
+    dispatch(changeAbout(about))
+    // Update the about field in the state or send it to the server
+  }
+
+  const handledisplayNameSave = () => {
+    setIsEditingDisplayName(false)
+    console.log("display name saved", displayName)
+    dispatch(changeDisplayName(displayName))
+  }
+
   useEffect(() => {
     if (showFullScreenProfileImage === true) {
       console.log("show image is true")
@@ -37,11 +68,11 @@ export default function MyProfileSettings() {
     }
   }, [showOptions, showFullScreenProfileImage, hoveredImage])
 
-  let profileImage = blankImage
+  const avatar = profileImage ? profileImage : blankImage
 
   return (
     <>
-      {showFullScreenProfileImage === true && <FullProfileImage avatar={profileImage} />}
+      {showFullScreenProfileImage === true && <FullProfileImage avatar={avatar} />}
 
       <div id="profileSettingsImage">
         <div onMouseEnter={handleHover} onMouseLeave={handleLeave} id="my-profile-image-container">
@@ -53,26 +84,41 @@ export default function MyProfileSettings() {
               </div>
             </div>
           )}
-          <Image src={profileImage} id="my-profile-image-large" style={{ height: "200px" }} />
+          <Image src={avatar} id="my-profile-image-large" style={{ height: "200px" }} />
         </div>
-        {showOptions === true && <ProfileImageOptions avatar={profileImage} />}
+        {showOptions === true && <ProfileImageOptions avatar={avatar} />}
       </div>
       <div id="my-profile-your-name" className="p-3 border">
         <div className="profile-section-small-header">your name</div>
-        <div className="d-flex justify-content-between align-items-center">
-          <div>Aneesah</div>
-          <RiPencilFill className="profile-settings-icon" />
-        </div>
+        {isEditingDisplayName ? (
+          <div className="d-flex justify-content-between align-items-center">
+            <input type="text" value={displayName} onChange={handleDisplayNameChange} />
+            <button onClick={handledisplayNameSave}>Save</button>
+          </div>
+        ) : (
+          <div className="d-flex justify-content-between align-items-center">
+            <div>{displayName}</div>
+            <RiPencilFill className="profile-settings-icon" onClick={() => setIsEditingDisplayName(true)} />
+          </div>
+        )}
       </div>
+
       <div id="name-info" className="p-3">
-        This is not your username or pin. This name will be visible to your WhatsApp contacts{" "}
+        This is not your DisplayName or pin. This name will be visible to your WhatsApp contacts{" "}
       </div>
       <div id="my-profile-about" className="p-3 border">
         <div className="profile-section-small-header">About</div>
-        <div className="d-flex justify-content-between align-items-center">
-          <div>This is my bio</div>
-          <RiPencilFill className="profile-settings-icon" />
-        </div>
+        {editingAbout ? (
+          <div className="d-flex justify-content-between align-items-center">
+            <input value={about} onChange={handleAboutChange} />
+            <button onClick={handleAboutSave}>Save</button>
+          </div>
+        ) : (
+          <div className="d-flex justify-content-between align-items-center">
+            <div>{about}</div>
+            <RiPencilFill className="profile-settings-icon" onClick={handleAboutEdit} />
+          </div>
+        )}
       </div>
     </>
   )

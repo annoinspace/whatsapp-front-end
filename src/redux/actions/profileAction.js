@@ -6,6 +6,9 @@ export const NEW_MESSAGE = "NEW_MESSAGE"
 export const VIEW_PROFILE_IMAGE = "VIEW_PROFILE_IMAGE"
 export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
 export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
+export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
+export const SET_ABOUT = "SET_ABOUT"
+export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
 
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
@@ -166,5 +169,27 @@ export const toggleProfileImageOptions = (boolean) => {
   return {
     type: "TOGGLE_PROFILE_IMAGE_OPTIONS",
     payload: boolean
+  }
+}
+export const setProfilePicture = (payload) => {
+  console.log("logging the profile picture change")
+  return {
+    type: "SET_PROFILE_PICTURE",
+    payload: payload
+  }
+}
+
+export const changeAbout = (about) => {
+  console.log("logging the about change", about)
+  return {
+    type: "SET_ABOUT",
+    payload: about
+  }
+}
+export const changeDisplayName = (about) => {
+  console.log("logging the about change", about)
+  return {
+    type: "SET_DISPLAYNAME",
+    payload: about
   }
 }

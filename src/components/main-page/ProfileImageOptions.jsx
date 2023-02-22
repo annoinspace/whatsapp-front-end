@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux"
 import { ListGroup, Image, Modal, Button } from "react-bootstrap"
 import "react-image-crop/dist/ReactCrop.css"
 import ReactCrop from "react-image-crop"
-import { showFullProfileImageAction, toggleProfileImageOptions } from "../../redux/actions/profileAction"
+import {
+  setProfilePicture,
+  showFullProfileImageAction,
+  toggleProfileImageOptions
+} from "../../redux/actions/profileAction"
 
 export default function ProfileImageOptions({ avatar }) {
   const [profileImage, setProfileImage] = useState(avatar)
@@ -45,22 +49,26 @@ export default function ProfileImageOptions({ avatar }) {
 
     setResult(base64Image)
     setProfileImage(base64Image)
-    if (result !== null) {
-      dispatch(toggleProfileImageOptions(false))
-    }
 
     setShow(false)
   }
 
-  // useEffect(() => {
-  //   if (result) {
-  //     dispatch(toggleProfileImageOptions(false))
-  //   }
-  // }, [result, dispatch])
-
   const viewPhotoHandler = () => {
     dispatch(showFullProfileImageAction())
   }
+
+  const removePhotoHandler = () => {
+    dispatch(setProfilePicture(null))
+    dispatch(toggleProfileImageOptions(false))
+  }
+  useEffect(() => {
+    if (result !== null) {
+      dispatch(toggleProfileImageOptions(false))
+      console.log("profileImage", profileImage)
+      dispatch(setProfilePicture(profileImage))
+      // console.log("profileImage result", result)
+    }
+  }, [result, dispatch])
 
   return (
     <>
@@ -76,7 +84,9 @@ export default function ProfileImageOptions({ avatar }) {
           </label>
         </ListGroup.Item>
 
-        <ListGroup.Item className="p-2 image-options-list-item  ">Remove Photo</ListGroup.Item>
+        <ListGroup.Item className="p-2 image-options-list-item" onClick={removePhotoHandler}>
+          Remove Photo
+        </ListGroup.Item>
       </ListGroup>
       {result && (
         <Image
@@ -84,7 +94,6 @@ export default function ProfileImageOptions({ avatar }) {
           style={{ height: "50px", width: "50px", paddingBottom: "0", border: "1px solid red" }}
         />
       )}
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
