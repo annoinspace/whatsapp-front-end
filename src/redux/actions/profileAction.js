@@ -7,19 +7,48 @@ export const VIEW_PROFILE_IMAGE = "VIEW_PROFILE_IMAGE"
 export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
 export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
-
+const baseEndpoint = process.env.REACT_APP_BE_URL
 export const setAccessToken = (accessToken) => ({
   type: SET_ACCESS_TOKEN,
   payload: accessToken
 })
 
+export const getAccessToken = (loggingInAuthor) => {
+  return async (dispatch) => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify(loggingInAuthor),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+    console.log("options", options)
+
+    try {
+      console.log("---------inside the getAccessToken action----------")
+      const response = await fetch(baseEndpoint + "/users/login", options)
+      if (response.ok) {
+        console.log("response", response)
+        const tokens = await response.json()
+        console.log("tokens", tokens)
+      } else {
+        console.log("-------error with getting a response ----------")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
     try {
+      console.log("inside the getProfileInfo action")
       const url = process.env.REACT_APP_BE_URL + "/users/me"
       const response = await fetch(url, config)
 
       if (response.ok) {
+        console.log("logging the successful rezponse", response)
         const tokens = await response.json()
 
         localStorage.setItem("accessToken", tokens.accessToken)
@@ -42,7 +71,6 @@ export const getProfileInfo = (config, setLoading, setError) => {
     }
   }
 }
-
 
 export const logoutUser = (user) => {
   return async (dispatch, getState) => {
