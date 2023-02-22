@@ -1,3 +1,4 @@
+
 import { persistStore, persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
 import { configureStore, combineReducers } from "@reduxjs/toolkit"
@@ -10,6 +11,7 @@ const bigReducer = combineReducers({
   toggleProfileImageOptionsReducer: profileReducer
 })
 
+
 const persistConfig = {
   key: 'root',
   storage: localStorage,
@@ -19,12 +21,15 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, bigReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer, // here there's place for just 1 value!
+  reducer: persistedReducer,
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false
     })
 })
 
+
 export const persistor = persistStore(store);
+
 
