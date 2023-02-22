@@ -5,10 +5,12 @@ import {
   SET_USER_INFO,
   VIEW_PROFILE_IMAGE,
   CLOSE_FULL_PROFILE_IMAGE,
-  TOGGLE_PROFILE_IMAGE_OPTIONS
+  TOGGLE_PROFILE_IMAGE_OPTIONS,
+  SET_ACCESS_TOKEN
 } from "../actions/profileAction"
 
 const initialState = {
+  accessToken: null,
   currentUser: null, //contains current logged in user info object
   activeChat: null, // currently active chat room
   chatList: [], // list of chats user is a part of
@@ -19,6 +21,11 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
+      return {
+        ...state,
+        accessToken: action.payload
+      }
     case SET_USER_INFO:
       return {
         ...state,

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { getProfileInfo } from "../redux/actions/profileAction";
+import { getProfileInfo, setAccessToken } from "../redux/actions/profileAction";
 import { useDispatch, useSelector } from "react-redux";
 
 const Login = ({ setLoggedIn, loggedIn }) => {
@@ -15,7 +15,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const loginUser = async () => {
+  const registerAuthor = async () => {
     try {
       setPostSuccess(false);
       setErrorOccurred(false);
@@ -58,7 +58,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password && !loading && !errorOccurred && !postSuccess) {
-      loginUser();
+      registerAuthor();
     } else {
       setErrorOccurred(true);
       infoTimeoutFunc(2000);

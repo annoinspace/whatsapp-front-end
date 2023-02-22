@@ -6,6 +6,12 @@ export const NEW_MESSAGE = "NEW_MESSAGE"
 export const VIEW_PROFILE_IMAGE = "VIEW_PROFILE_IMAGE"
 export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
 export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
+export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
+
+export const setAccessToken = (accessToken) => ({
+  type: SET_ACCESS_TOKEN,
+  payload: accessToken
+})
 
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
@@ -17,11 +23,15 @@ export const getProfileInfo = (config, setLoading, setError) => {
         const tokens = await response.json()
 
         localStorage.setItem("accessToken", tokens.accessToken)
-        localStorage.setItem("refreshToken", tokens.refreshToken)
+        localStorage.setItem("currentUser", JSON.stringify(tokens.user))
 
         dispatch({
           type: SET_USER_INFO,
           payload: tokens.user
+        })
+        dispatch({
+          type: SET_ACCESS_TOKEN,
+          payload: tokens.accessToken
         })
       } else {
         setError(true)
@@ -32,6 +42,7 @@ export const getProfileInfo = (config, setLoading, setError) => {
     }
   }
 }
+
 
 export const logoutUser = (user) => {
   return async (dispatch, getState) => {
