@@ -15,7 +15,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const registerAuthor = async () => {
+  const loginUser = async () => {
     try {
       setPostSuccess(false);
       setErrorOccurred(false);
@@ -33,9 +33,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
           "Content-Type": "application/json",
         }),
       };
-
       dispatch(getProfileInfo(config, setLoading, setErrorOccurred));
-
       navigate("/home");
     } catch (error) {
       setErrorOccurred(true);
@@ -60,7 +58,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email && password && !loading && !errorOccurred && !postSuccess) {
-      registerAuthor();
+      loginUser();
     } else {
       setErrorOccurred(true);
       infoTimeoutFunc(2000);
@@ -93,7 +91,7 @@ const Login = ({ setLoggedIn, loggedIn }) => {
           }}
         >
           <h2 className="my-4">Login</h2>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control

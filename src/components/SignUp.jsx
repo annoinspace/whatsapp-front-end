@@ -9,7 +9,7 @@ const SignUp = () => {
   const [password2, setPassword2] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [errorOccurred, setErrorOccurred] = useState(false);
+  const [error, setError] = useState(false);
   const [postSuccess, setPostSuccess] = useState(false);
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const SignUp = () => {
   const registerUser = async () => {
     try {
       setPostSuccess(false);
-      setErrorOccurred(false);
+      setError(false);
       setLoading(true);
 
       const newUser = {
@@ -36,18 +36,18 @@ const SignUp = () => {
       };
 
       const response = await fetch(
-        process.env.REACT_APP_BE_URL + "/users/me",
+        process.env.REACT_APP_BE_URL + "/users/register",
         config
       );
 
       if (response.ok) {
         setPostSuccess(true);
-        navigate("/");
+        navigate("/login");
       } else {
-        setErrorOccurred(true);
+        setError(true);
       }
     } catch (error) {
-      setErrorOccurred(true);
+      setError(true);
     } finally {
       setLoading(false);
       setUsername("");
@@ -59,13 +59,14 @@ const SignUp = () => {
   };
 
   const resetAllState = () => {
-    setErrorOccurred(false);
+    setError(false);
     setPostSuccess(false);
     setLoading(false);
   };
 
   const infoTimeoutFunc = (time) => {
     const infoTimeout = setTimeout(resetAllState, time);
+    return () => clearTimeout(infoTimeout);
   };
 
   const handleSubmit = (e) => {
@@ -76,17 +77,17 @@ const SignUp = () => {
       password &&
       password2 &&
       !loading &&
-      !errorOccurred &&
+      !error &&
       !postSuccess
     ) {
       if (password !== password2) {
-        setErrorOccurred(true);
+        setError(true);
         infoTimeoutFunc(2000);
       } else {
         registerUser();
       }
     } else {
-      setErrorOccurred(true);
+      setError(true);
       infoTimeoutFunc(2000);
     }
   };
@@ -97,7 +98,7 @@ const SignUp = () => {
         className="w-50"
         style={{
             float: "left",
-          height: "61.5vh",
+          height: "60vh",
           backgroundImage: `url(${process.env.PUBLIC_URL}/images/whatsapp-promo.webp)`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -173,12 +174,12 @@ const SignUp = () => {
             {loading && (
               <Spinner animation="border" role="status"></Spinner>
             )}
-            {!loading && errorOccurred && (
+            {!loading && error && (
               <Alert variant="danger">
                 Error occurred when creating profile!
               </Alert>
             )}
-            {!loading && !errorOccurred && postSuccess && (
+            {!loading && !error && postSuccess && (
               <Alert variant="success">
                 Profile created!
               </Alert>
