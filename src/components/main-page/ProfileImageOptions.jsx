@@ -53,6 +53,14 @@ export default function ProfileImageOptions({ avatar }) {
     setShow(false)
   }
 
+  const viewPhotoHandler = () => {
+    dispatch(showFullProfileImageAction())
+  }
+
+  const removePhotoHandler = () => {
+    dispatch(setProfilePicture(null))
+    dispatch(toggleProfileImageOptions(false))
+  }
   useEffect(() => {
     if (result !== null) {
       dispatch(toggleProfileImageOptions(false))
@@ -61,10 +69,6 @@ export default function ProfileImageOptions({ avatar }) {
       // console.log("profileImage result", result)
     }
   }, [result, dispatch])
-
-  const viewPhotoHandler = () => {
-    dispatch(showFullProfileImageAction())
-  }
 
   return (
     <>
@@ -80,7 +84,9 @@ export default function ProfileImageOptions({ avatar }) {
           </label>
         </ListGroup.Item>
 
-        <ListGroup.Item className="p-2 image-options-list-item  ">Remove Photo</ListGroup.Item>
+        <ListGroup.Item className="p-2 image-options-list-item" onClick={removePhotoHandler}>
+          Remove Photo
+        </ListGroup.Item>
       </ListGroup>
       {result && (
         <Image

@@ -6,7 +6,7 @@ import { RiPencilFill } from "react-icons/ri"
 import { BsCameraFill } from "react-icons/bs"
 import ProfileImageOptions from "./ProfileImageOptions"
 import FullProfileImage from "./FullProfileImage"
-import { toggleProfileImageOptions } from "../../redux/actions/profileAction"
+import { changeAbout, toggleProfileImageOptions } from "../../redux/actions/profileAction"
 
 export default function MyProfileSettings() {
   const dispatch = useDispatch()
@@ -16,7 +16,8 @@ export default function MyProfileSettings() {
   const profileImage = testUser.avatar
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
-
+  const [editingAbout, setEditingAbout] = useState(false)
+  const [about, setAbout] = useState(testUser.about)
   const handleHover = (e) => {
     setHoveredImage(true)
   }
@@ -31,6 +32,21 @@ export default function MyProfileSettings() {
   const handleHoveredClick = () => {
     setHoveredImage(true)
     dispatch(toggleProfileImageOptions(true))
+  }
+  const handleAboutEdit = () => {
+    setEditingAbout(true)
+  }
+
+  const handleAboutChange = (e) => {
+    setAbout(e.target.value)
+    // console.log("about", about)
+  }
+
+  const handleAboutSave = () => {
+    setEditingAbout(false)
+    console.log("about saved", about)
+    dispatch(changeAbout(about))
+    // Update the about field in the state or send it to the server
   }
   useEffect(() => {
     if (showFullScreenProfileImage === true) {
@@ -72,11 +88,25 @@ export default function MyProfileSettings() {
       </div>
       <div id="my-profile-about" className="p-3 border">
         <div className="profile-section-small-header">About</div>
+        {editingAbout ? (
+          <div className="d-flex justify-content-between align-items-center">
+            <input value={about} onChange={handleAboutChange} />
+            <button onClick={handleAboutSave}>Save</button>
+          </div>
+        ) : (
+          <div className="d-flex justify-content-between align-items-center">
+            <div>{about}</div>
+            <RiPencilFill className="profile-settings-icon" onClick={handleAboutEdit} />
+          </div>
+        )}
+      </div>
+      {/* <div id="my-profile-about" className="p-3 border">
+        <div className="profile-section-small-header">About</div>
         <div className="d-flex justify-content-between align-items-center">
           <div>{testUser.about}</div>
           <RiPencilFill className="profile-settings-icon" />
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

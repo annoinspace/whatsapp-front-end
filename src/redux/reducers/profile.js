@@ -6,7 +6,8 @@ import {
   VIEW_PROFILE_IMAGE,
   CLOSE_FULL_PROFILE_IMAGE,
   TOGGLE_PROFILE_IMAGE_OPTIONS,
-  SET_PROFILE_PICTURE
+  SET_PROFILE_PICTURE,
+  SET_ABOUT
 } from "../actions/profileAction"
 
 const initialState = {
@@ -66,6 +67,15 @@ const profileReducer = (state = initialState, action) => {
         currentUserTest: {
           ...state.currentUserTest,
           avatar: action.payload
+        }
+      }
+    case SET_ABOUT:
+      return {
+        ...state,
+        about: action.payload,
+        currentUserTest: {
+          ...state.currentUserTest,
+          about: action.payload
         }
       }
 
