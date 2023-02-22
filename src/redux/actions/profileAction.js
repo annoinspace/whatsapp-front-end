@@ -10,9 +10,9 @@ export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 export const SET_ABOUT = "SET_ABOUT"
 export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
 
-
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 const baseEndpoint = process.env.REACT_APP_BE_URL
+
 export const setAccessToken = (accessToken) => ({
   type: SET_ACCESS_TOKEN,
   payload: accessToken
@@ -76,38 +76,6 @@ export const getAccessToken = (loggingInAuthor) => {
     }
   }
 }
-
-// export const getProfileInfo = (config, setLoading, setError) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       console.log("inside the getProfileInfo action------ passsed access token")
-//       const url = process.env.REACT_APP_BE_URL + "/users/me"
-//       const response = await fetch(url, config)
-
-//       if (response.ok) {
-//         console.log("logging the successful rezponse", response)
-//         const tokens = await response.json()
-
-//         localStorage.setItem("accessToken", tokens.accessToken)
-//         localStorage.setItem("currentUser", JSON.stringify(tokens.user))
-
-//         dispatch({
-//           type: SET_USER_INFO,
-//           payload: tokens.user
-//         })
-//         dispatch({
-//           type: SET_ACCESS_TOKEN,
-//           payload: tokens.accessToken
-//         })
-//       } else {
-//         setError(true)
-//       }
-//     } catch (error) {
-//       console.log(error)
-//       setError(true)
-//     }
-//   }
-// }
 
 export const logoutUser = (user) => {
   return async (dispatch, getState) => {
@@ -264,5 +232,58 @@ export const changeDisplayName = (about) => {
   return {
     type: "SET_DISPLAYNAME",
     payload: about
+  }
+}
+
+// export const sendImageToBackend = (formData) => {
+//   const accessToken = localStorage.getItem("accessToken")
+//   console.log("backend recieved image")
+//   return async (dispatch) => {
+//     const options = {
+//       method: "POST",
+//       body: formData,
+//       headers: {
+//         "Content-Type": `multipart/form-data; boundary=XXX`,
+//         Authorization: "Bearer " + accessToken
+//       }
+//     }
+//     try {
+//       const response = await fetch(baseEndpoint + "/users/me/avatar", options)
+//       if (response.ok) console.log("----------response", response)
+//       else {
+//         console.log("----error occured with fetching----")
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+export const sendImageToBackend = (formData) => {
+  const accessToken = localStorage.getItem("accessToken")
+  return async (dispatch) => {
+    if (!formData) {
+      console.log("No file uploaded in frontend")
+      return
+    }
+
+    const options = {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=XXX`,
+        Authorization: "Bearer " + accessToken
+      }
+    }
+
+    try {
+      console.log("logging in the try catch send image action")
+      const response = await fetch(baseEndpoint + "/users/me/avatar", options)
+      if (response.ok) console.log("----------response", response)
+      else {
+        console.log("----error occured with fetching----")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

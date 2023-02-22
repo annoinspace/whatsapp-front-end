@@ -73,9 +73,9 @@ const profileReducer = (state = initialState, action) => {
     case SET_PROFILE_PICTURE:
       return {
         ...state,
-        myProfilePicture: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        avatar: action.payload,
+        currentUser: {
+          ...state.currentUser,
           avatar: action.payload
         }
       }
@@ -83,8 +83,8 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         about: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        currentUser: {
+          ...state.currentUser,
           about: action.payload
         }
       }
@@ -92,8 +92,8 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         displayName: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        currentUser: {
+          ...state.currentUser,
           displayName: action.payload
         }
       }
