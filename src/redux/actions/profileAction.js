@@ -8,6 +8,7 @@ export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
 export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
 export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 export const SET_ABOUT = "SET_ABOUT"
+export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
 
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
@@ -183,5 +184,12 @@ export const changeAbout = (about) => {
   return {
     type: "SET_ABOUT",
     payload: about
+  }
+}
+export const changeDisplayName = (name) => {
+  console.log("logging the displayName change", name)
+  return {
+    type: "SET_DISPLAYNAME",
+    payload: name
   }
 }

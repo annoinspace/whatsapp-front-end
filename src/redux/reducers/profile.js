@@ -7,7 +7,8 @@ import {
   CLOSE_FULL_PROFILE_IMAGE,
   TOGGLE_PROFILE_IMAGE_OPTIONS,
   SET_PROFILE_PICTURE,
-  SET_ABOUT
+  SET_ABOUT,
+  SET_DISPLAYNAME
 } from "../actions/profileAction"
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     avatar: false,
     username: "annoinspace",
     email: "anno@gmail.com",
-    about: "my bio",
+    displayName: "edit name",
+    about: "edit bio",
     chats: []
   }
 }
@@ -76,6 +78,15 @@ const profileReducer = (state = initialState, action) => {
         currentUserTest: {
           ...state.currentUserTest,
           about: action.payload
+        }
+      }
+    case SET_DISPLAYNAME:
+      return {
+        ...state,
+        displayName: action.payload,
+        currentUserTest: {
+          ...state.currentUserTest,
+          displayName: action.payload
         }
       }
 
