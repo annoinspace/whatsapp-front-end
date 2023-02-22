@@ -45,9 +45,11 @@ export default function ProfileImageOptions({ avatar }) {
 
     setResult(base64Image)
     setProfileImage(base64Image)
+    if (result !== null) {
+      dispatch(toggleProfileImageOptions(false))
+    }
 
     setShow(false)
-    // dispatch(toggleProfileImageOptions(false))
   }
 
   // useEffect(() => {
