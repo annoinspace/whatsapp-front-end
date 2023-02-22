@@ -19,8 +19,6 @@ export default function MainPage() {
   const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
   console.log("profileImage", profileImage)
   const avatar = profileImage ? profileImage : blankImage
-  // const myProfileImage = myProfile.avatar
-  // const profileImage = myProfileImage ? myProfileImage : blankImage
 
   console.log("current user details", myProfile)
 
