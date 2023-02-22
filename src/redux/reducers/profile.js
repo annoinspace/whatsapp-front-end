@@ -1,5 +1,5 @@
 import {
-  SET_ACCESS_TOKEN,
+  // SET_ACCESS_TOKEN,
   SET_ACTIVE_CHAT,
   SET_CHATS,
   SET_HISTORY,
@@ -34,11 +34,11 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
-      return {
-        ...state,
-        accessToken: action.payload
-      }
+    // case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
+    //   return {
+    //     ...state,
+    //     accessToken: action.payload
+    //   }
     case SET_USER_INFO:
       return {
         ...state,

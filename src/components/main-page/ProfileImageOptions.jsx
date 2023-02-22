@@ -94,7 +94,6 @@ export default function ProfileImageOptions({ avatar }) {
           style={{ height: "50px", width: "50px", paddingBottom: "0", border: "1px solid red" }}
         />
       )}
-
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
