@@ -16,6 +16,9 @@ import { useSelector } from "react-redux"
 export default function MainPage() {
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
   const myProfile = useSelector((state) => state.loadedProfile.currentUser)
+  const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+  console.log("profileImage", profileImage)
+  const avatar = profileImage ? profileImage : blankImage
   // const myProfileImage = myProfile.avatar
   // const profileImage = myProfileImage ? myProfileImage : blankImage
 
@@ -29,6 +32,9 @@ export default function MainPage() {
     console.log("going back to chats")
     setViewProfileSettings(false)
   }
+  useEffect(() => {
+    console.log("profile image changed")
+  }, [profileImage])
 
   return (
     <div id="main-page-container" className="">
@@ -53,7 +59,7 @@ export default function MainPage() {
                   <div
                     onClick={showMyProfileHandler}
                     className="my-profile-image"
-                    style={{ backgroundImage: `url(${blankImage})` }}
+                    style={{ backgroundImage: `url(${avatar})` }}
                   ></div>
                   <div className=" d-flex main-icons">
                     <RiTeamFill />

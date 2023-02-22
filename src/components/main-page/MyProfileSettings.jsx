@@ -11,6 +11,7 @@ import { toggleProfileImageOptions } from "../../redux/actions/profileAction"
 export default function MyProfileSettings() {
   const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
+  const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
 
@@ -37,11 +38,11 @@ export default function MyProfileSettings() {
     }
   }, [showOptions, showFullScreenProfileImage, hoveredImage])
 
-  let profileImage = blankImage
+  const avatar = profileImage ? profileImage : blankImage
 
   return (
     <>
-      {showFullScreenProfileImage === true && <FullProfileImage avatar={profileImage} />}
+      {showFullScreenProfileImage === true && <FullProfileImage avatar={avatar} />}
 
       <div id="profileSettingsImage">
         <div onMouseEnter={handleHover} onMouseLeave={handleLeave} id="my-profile-image-container">
@@ -53,9 +54,9 @@ export default function MyProfileSettings() {
               </div>
             </div>
           )}
-          <Image src={profileImage} id="my-profile-image-large" style={{ height: "200px" }} />
+          <Image src={avatar} id="my-profile-image-large" style={{ height: "200px" }} />
         </div>
-        {showOptions === true && <ProfileImageOptions avatar={profileImage} />}
+        {showOptions === true && <ProfileImageOptions avatar={avatar} />}
       </div>
       <div id="my-profile-your-name" className="p-3 border">
         <div className="profile-section-small-header">your name</div>

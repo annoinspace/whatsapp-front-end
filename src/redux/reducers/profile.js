@@ -5,7 +5,8 @@ import {
   SET_USER_INFO,
   VIEW_PROFILE_IMAGE,
   CLOSE_FULL_PROFILE_IMAGE,
-  TOGGLE_PROFILE_IMAGE_OPTIONS
+  TOGGLE_PROFILE_IMAGE_OPTIONS,
+  SET_PROFILE_PICTURE
 } from "../actions/profileAction"
 
 const initialState = {
@@ -14,7 +15,8 @@ const initialState = {
   chatList: [], // list of chats user is a part of
   allUsers: [], // object array of all users in DB
   viewProfileImage: false,
-  profileImageOptions: false
+  profileImageOptions: false,
+  myProfilePicture: null
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -48,6 +50,11 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         profileImageOptions: action.payload
+      }
+    case SET_PROFILE_PICTURE:
+      return {
+        ...state,
+        myProfilePicture: action.payload
       }
 
     default:

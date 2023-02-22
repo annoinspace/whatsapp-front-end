@@ -6,6 +6,7 @@ export const NEW_MESSAGE = "NEW_MESSAGE"
 export const VIEW_PROFILE_IMAGE = "VIEW_PROFILE_IMAGE"
 export const CLOSE_FULL_PROFILE_IMAGE = "CLOSE_FULL_PROFILE_IMAGE"
 export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
+export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 
 export const getProfileInfo = (config, setLoading, setError) => {
   return async (dispatch, getState) => {
@@ -166,5 +167,12 @@ export const toggleProfileImageOptions = (boolean) => {
   return {
     type: "TOGGLE_PROFILE_IMAGE_OPTIONS",
     payload: boolean
+  }
+}
+export const setProfilePicture = (image) => {
+  console.log("logging the profile picture change")
+  return {
+    type: "SET_PROFILE_PICTURE",
+    payload: image
   }
 }

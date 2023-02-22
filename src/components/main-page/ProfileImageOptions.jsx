@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux"
 import { ListGroup, Image, Modal, Button } from "react-bootstrap"
 import "react-image-crop/dist/ReactCrop.css"
 import ReactCrop from "react-image-crop"
-import { showFullProfileImageAction, toggleProfileImageOptions } from "../../redux/actions/profileAction"
+import {
+  setProfilePicture,
+  showFullProfileImageAction,
+  toggleProfileImageOptions
+} from "../../redux/actions/profileAction"
 
 export default function ProfileImageOptions({ avatar }) {
   const [profileImage, setProfileImage] = useState(avatar)
@@ -45,18 +49,18 @@ export default function ProfileImageOptions({ avatar }) {
 
     setResult(base64Image)
     setProfileImage(base64Image)
-    if (result !== null) {
-      dispatch(toggleProfileImageOptions(false))
-    }
 
     setShow(false)
   }
 
-  // useEffect(() => {
-  //   if (result) {
-  //     dispatch(toggleProfileImageOptions(false))
-  //   }
-  // }, [result, dispatch])
+  useEffect(() => {
+    if (result !== null) {
+      dispatch(toggleProfileImageOptions(false))
+      console.log("profileImage", profileImage)
+      dispatch(setProfilePicture(profileImage))
+      // console.log("profileImage result", result)
+    }
+  }, [result, dispatch])
 
   const viewPhotoHandler = () => {
     dispatch(showFullProfileImageAction())
