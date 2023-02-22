@@ -7,6 +7,7 @@ import MainPage from "./components/main-page/MainPage"
 // import Test from "./components/main-page/Test"
 
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>

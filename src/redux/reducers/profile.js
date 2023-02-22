@@ -7,9 +7,11 @@ import {
   VIEW_PROFILE_IMAGE,
   CLOSE_FULL_PROFILE_IMAGE,
   TOGGLE_PROFILE_IMAGE_OPTIONS,
+  SET_ACCESS_TOKEN
   SET_PROFILE_PICTURE,
   SET_ABOUT,
   SET_DISPLAYNAME
+
 } from "../actions/profileAction"
 
 const initialState = {
@@ -34,11 +36,12 @@ const initialState = {
 
 const profileReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
-    //   return {
-    //     ...state,
-    //     accessToken: action.payload
-    //   }
+
+    case SET_ACCESS_TOKEN: // add a new case to handle setting the accessToken
+      return {
+        ...state,
+        accessToken: action.payload
+      }
     case SET_USER_INFO:
       return {
         ...state,
