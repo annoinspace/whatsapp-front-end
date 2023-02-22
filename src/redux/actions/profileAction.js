@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 export const SET_USER_INFO = "SET_USER_INFO"
 export const SET_CHATS = "SET_CHATS"
 export const SET_ACTIVE_CHAT = "SET_ACTIVE_CHAT"
@@ -30,7 +32,40 @@ export const getAccessToken = (loggingInAuthor) => {
       if (response.ok) {
         console.log("response", response)
         const tokens = await response.json()
-        console.log("tokens", tokens)
+        const accessToken = await tokens.accessToken
+        console.log("dispatching accessToken", accessToken)
+
+        if (accessToken) {
+          dispatch({
+            type: SET_ACCESS_TOKEN,
+            payload: accessToken
+          })
+          localStorage.setItem("accessToken", accessToken)
+          try {
+            const opts = {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + accessToken
+              }
+            }
+            const userResponse = await fetch(baseEndpoint + "/users/me", opts)
+            if (userResponse.ok) {
+              const user = await userResponse.json()
+              console.log("response of /users/me user", user)
+              dispatch({
+                type: SET_USER_INFO,
+                payload: user
+              })
+            } else {
+              console.log("error getting the user")
+            }
+          } catch (error) {
+            console.log("error in trycatch", error)
+          }
+        } else {
+          console.log("access token not created")
+        }
       } else {
         console.log("-------error with getting a response ----------")
       }
@@ -40,37 +75,37 @@ export const getAccessToken = (loggingInAuthor) => {
   }
 }
 
-export const getProfileInfo = (config, setLoading, setError) => {
-  return async (dispatch, getState) => {
-    try {
-      console.log("inside the getProfileInfo action")
-      const url = process.env.REACT_APP_BE_URL + "/users/me"
-      const response = await fetch(url, config)
+// export const getProfileInfo = (config, setLoading, setError) => {
+//   return async (dispatch, getState) => {
+//     try {
+//       console.log("inside the getProfileInfo action------ passsed access token")
+//       const url = process.env.REACT_APP_BE_URL + "/users/me"
+//       const response = await fetch(url, config)
 
-      if (response.ok) {
-        console.log("logging the successful rezponse", response)
-        const tokens = await response.json()
+//       if (response.ok) {
+//         console.log("logging the successful rezponse", response)
+//         const tokens = await response.json()
 
-        localStorage.setItem("accessToken", tokens.accessToken)
-        localStorage.setItem("currentUser", JSON.stringify(tokens.user))
+//         localStorage.setItem("accessToken", tokens.accessToken)
+//         localStorage.setItem("currentUser", JSON.stringify(tokens.user))
 
-        dispatch({
-          type: SET_USER_INFO,
-          payload: tokens.user
-        })
-        dispatch({
-          type: SET_ACCESS_TOKEN,
-          payload: tokens.accessToken
-        })
-      } else {
-        setError(true)
-      }
-    } catch (error) {
-      console.log(error)
-      setError(true)
-    }
-  }
-}
+//         dispatch({
+//           type: SET_USER_INFO,
+//           payload: tokens.user
+//         })
+//         dispatch({
+//           type: SET_ACCESS_TOKEN,
+//           payload: tokens.accessToken
+//         })
+//       } else {
+//         setError(true)
+//       }
+//     } catch (error) {
+//       console.log(error)
+//       setError(true)
+//     }
+//   }
+// }
 
 export const logoutUser = (user) => {
   return async (dispatch, getState) => {
