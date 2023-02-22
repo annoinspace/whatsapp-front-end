@@ -1,27 +1,48 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { Image } from "react-bootstrap"
 import blankImage from "../../assets/blank-profile-picture.png"
 import { RiPencilFill } from "react-icons/ri"
 import { BsCameraFill } from "react-icons/bs"
 import ProfileImageOptions from "./ProfileImageOptions"
+import FullProfileImage from "./FullProfileImage"
+import { toggleProfileImageOptions } from "../../redux/actions/profileAction"
 
 export default function MyProfileSettings() {
+  const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
-  const handleHover = () => {
+  const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
+  const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
+
+  const handleHover = (e) => {
     setHoveredImage(true)
   }
-  const handleLeave = () => {
-    setHoveredImage(false)
+  const handleLeave = (e) => {
+    if (!showOptions && e.target.id !== "my-profile-image-container") {
+      setHoveredImage(false)
+    } else {
+      setHoveredImage(true)
+    }
   }
 
   const handleHoveredClick = () => {
     setHoveredImage(true)
+    dispatch(toggleProfileImageOptions(true))
   }
+  useEffect(() => {
+    if (showFullScreenProfileImage === true) {
+      console.log("show image is true")
+      dispatch(toggleProfileImageOptions(false))
+      setHoveredImage(false)
+    }
+  }, [showOptions, showFullScreenProfileImage, hoveredImage])
 
   let profileImage = blankImage
 
   return (
     <>
+      {showFullScreenProfileImage === true && <FullProfileImage avatar={profileImage} />}
+
       <div id="profileSettingsImage">
         <div onMouseEnter={handleHover} onMouseLeave={handleLeave} id="my-profile-image-container">
           {hoveredImage === true && (
@@ -34,7 +55,7 @@ export default function MyProfileSettings() {
           )}
           <Image src={profileImage} id="my-profile-image-large" style={{ height: "200px" }} />
         </div>
-        <ProfileImageOptions />
+        {showOptions === true && <ProfileImageOptions avatar={profileImage} />}
       </div>
       <div id="my-profile-your-name" className="p-3 border">
         <div className="profile-section-small-header">your name</div>

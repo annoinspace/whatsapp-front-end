@@ -47,7 +47,7 @@
   background-color: var(--whatsapp-green);
   height: 20px;
   width: 100vw;
-  z-index: 20;
+  z-index: 100;
 }
 /* -------------- top profile section---------------- */
 #my-profile {
@@ -125,6 +125,7 @@
   color: var(--whatsapp-dark-green);
   font-size: var(--small-font);
   margin-bottom: 10px;
+  text-align: left;
 }
 #name-info {
   user-select: none;
@@ -161,12 +162,44 @@
 #full-profile-image {
   z-index: 19;
   position: absolute;
-  top: 0;
+  top: 20px;
   left: 0;
-  border: 1px solid rgb(14, 163, 212);
-  background-color: rgba(222, 163, 163, 0.2);
+
+  background-color: rgba(255, 255, 255, 1);
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#full-profile-image-wrapper {
+  height: 400px;
+  width: 400px;
+  aspect-ratio: 1/1;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  align-self: center;
+}
+#profile_image-close {
+  font-size: 30px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+
+#crop-image {
+  height: 300px;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+#modal-test {
+  position: absolute;
+  right: 0;
 }
 /* --------------left side user chat display -------------*/
 #all-chats {
