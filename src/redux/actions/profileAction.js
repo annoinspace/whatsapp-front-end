@@ -186,10 +186,10 @@ export const changeAbout = (about) => {
     payload: about
   }
 }
-export const changeDisplayName = (name) => {
-  console.log("logging the displayName change", name)
+export const changeDisplayName = (about) => {
+  console.log("logging the about change", about)
   return {
     type: "SET_DISPLAYNAME",
-    payload: name
+    payload: about
   }
 }

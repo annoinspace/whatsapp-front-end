@@ -1,14 +1,27 @@
+import { persistStore, persistReducer } from "redux-persist"
+import storage from "redux-persist/lib/storage"
 import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import profileReducer from "../reducers/profile.js"
+import profileReducer from "../reducers/profile"
 
-const mainReducer = combineReducers({
+const persistConfig = {
+  key: "root",
+  storage: storage
+}
+
+const bigReducer = combineReducers({
   loadedProfile: profileReducer,
   showEnlargedProfileImage: profileReducer,
   toggleProfileImageOptionsReducer: profileReducer
 })
 
-const store = configureStore({
-  reducer: mainReducer
+const persistedReducer = persistReducer(persistConfig, bigReducer)
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    })
 })
 
-export default store
+export const persistor = persistStore(store)
