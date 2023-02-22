@@ -16,7 +16,8 @@ import { useSelector } from "react-redux"
 export default function MainPage() {
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
   const myProfile = useSelector((state) => state.loadedProfile.currentUser)
-  const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+  const testUser = useSelector((state) => state.loadedProfile.currentUserTest)
+  const profileImage = testUser.avatar
   console.log("profileImage", profileImage)
   const avatar = profileImage ? profileImage : blankImage
 

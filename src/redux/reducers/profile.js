@@ -16,7 +16,15 @@ const initialState = {
   allUsers: [], // object array of all users in DB
   viewProfileImage: false,
   profileImageOptions: false,
-  myProfilePicture: null
+  // myProfilePicture: null,
+  currentUserTest: {
+    _id: "63f5ef074d5ec50434acc64c",
+    avatar: false,
+    username: "annoinspace",
+    email: "anno@gmail.com",
+    about: "my bio",
+    chats: []
+  }
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -54,7 +62,11 @@ const profileReducer = (state = initialState, action) => {
     case SET_PROFILE_PICTURE:
       return {
         ...state,
-        myProfilePicture: action.payload
+        myProfilePicture: action.payload,
+        currentUserTest: {
+          ...state.currentUserTest,
+          avatar: action.payload
+        }
       }
 
     default:

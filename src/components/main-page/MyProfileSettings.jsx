@@ -11,7 +11,9 @@ import { toggleProfileImageOptions } from "../../redux/actions/profileAction"
 export default function MyProfileSettings() {
   const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
-  const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+  // const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+  const testUser = useSelector((state) => state.loadedProfile.currentUserTest)
+  const profileImage = testUser.avatar
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
 
@@ -61,7 +63,7 @@ export default function MyProfileSettings() {
       <div id="my-profile-your-name" className="p-3 border">
         <div className="profile-section-small-header">your name</div>
         <div className="d-flex justify-content-between align-items-center">
-          <div>Aneesah</div>
+          <div>{testUser.username}</div>
           <RiPencilFill className="profile-settings-icon" />
         </div>
       </div>
@@ -71,7 +73,7 @@ export default function MyProfileSettings() {
       <div id="my-profile-about" className="p-3 border">
         <div className="profile-section-small-header">About</div>
         <div className="d-flex justify-content-between align-items-center">
-          <div>This is my bio</div>
+          <div>{testUser.about}</div>
           <RiPencilFill className="profile-settings-icon" />
         </div>
       </div>
