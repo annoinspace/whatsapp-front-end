@@ -19,10 +19,9 @@ export default function MainPage() {
   const allUsers = useSelector((state) => state.loadedProfile.allUsers)
   // console.log("all users in main page", allUsers)
   const myProfile = useSelector((state) => state.loadedProfile.currentUser)
-  const profileImage = myProfile.avatar === undefined ? "../../assets/blank-profile-picture.png" : myProfile.avatar
-  console.log("profileImage", profileImage)
-  const avatar = "../../assets/blank-profile-picture.png"
-
+  // const profileImage = myProfile.avatar === undefined ? "../../assets/blank-profile-picture.png" : myProfile.avatar
+  // console.log("profileImage", profileImage)
+  const blankImage = "../../assets/blank-profile-picture.png"
 
   const profileImage = user.avatar
 
