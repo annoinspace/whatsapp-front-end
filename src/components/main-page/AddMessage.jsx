@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { BsEmojiSmile } from "react-icons/bs";
 import { GrAttachment, GrMicrophone } from "react-icons/gr";
+import io from 'socket.io-client';
 
+const socket = io('http://localhost:3002');
 export default function AddMessage() {
   const [message, setMessage] = useState("");
   const [sentMessages, setSentMessages] = useState([]);
@@ -11,6 +13,7 @@ export default function AddMessage() {
     e.preventDefault();
     console.log(message);
     setSentMessages([...sentMessages, message]);
+    socket.emit("sendMessage", message); // emit the message to the backend
     setMessage("");
   };
 
