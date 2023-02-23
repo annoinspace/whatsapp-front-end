@@ -9,6 +9,7 @@ import MainPage from "./components/main-page/MainPage"
 
 // import Test from "./components/main-page/Test"
 
+
 function App() {
   const user = useSelector((state) => state.loadedProfile.currentUser)
 
@@ -31,7 +32,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

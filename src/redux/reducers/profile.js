@@ -24,15 +24,6 @@ const initialState = {
   viewProfileImage: false,
   profileImageOptions: false,
   // myProfilePicture: null,
-  currentUserTest: {
-    _id: "63f5ef074d5ec50434acc64c",
-    avatar: false,
-    username: "annoinspace",
-    email: "anno@gmail.com",
-    displayName: "edit name",
-    about: "edit bio",
-    chats: []
-  }
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -81,7 +72,9 @@ const profileReducer = (state = initialState, action) => {
     case SET_PROFILE_PICTURE:
       return {
         ...state,
+
         avatar: action.payload,
+        myProfilePicture: action.payload,
         currentUser: {
           ...state.currentUser,
           avatar: action.payload

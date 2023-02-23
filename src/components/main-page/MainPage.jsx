@@ -6,7 +6,6 @@ import { RiTeamFill } from "react-icons/ri"
 import { TbCircleDashed } from "react-icons/tb"
 import { AiOutlinePlus, AiOutlineArrowLeft } from "react-icons/ai"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
-import blankImage from "../../assets/blank-profile-picture.png"
 import SearchChat from "./SearchChat"
 import MyProfileSettings from "./MyProfileSettings"
 import OpenChat from "./OpenChat"
@@ -19,6 +18,11 @@ export default function MainPage() {
   const user = useSelector((state) => state.loadedProfile.currentUser)
   const allUsers = useSelector((state) => state.loadedProfile.allUsers)
   // console.log("all users in main page", allUsers)
+  const myProfile = useSelector((state) => state.loadedProfile.currentUser)
+  const profileImage = myProfile.avatar === undefined ? "../../assets/blank-profile-picture.png" : myProfile.avatar
+  console.log("profileImage", profileImage)
+  const avatar = "../../assets/blank-profile-picture.png"
+
 
   const profileImage = user.avatar
 

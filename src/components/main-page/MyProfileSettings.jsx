@@ -19,15 +19,19 @@ export default function MyProfileSettings() {
   const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
   // const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
+
   const user = useSelector((state) => state.loadedProfile.currentUser)
   const profileImage = user.avatar
 
+
+  const currentUser = useSelector((state) => state.loadedProfile.currentUser)
+  const profileImage = currentUser.avatar
   const showFullScreenProfileImage = useSelector((state) => state.showEnlargedProfileImage.viewProfileImage)
   const showOptions = useSelector((state) => state.toggleProfileImageOptionsReducer.profileImageOptions)
   const [editingAbout, setEditingAbout] = useState(false)
-  const [about, setAbout] = useState(user.about)
+  const [about, setAbout] = useState(currentUser.about)
   const [isEditingDisplayName, setIsEditingDisplayName] = useState(false)
-  const [displayName, setDisplayName] = useState(user.displayName)
+  const [displayName, setDisplayName] = useState(currentUser.displayName)
 
   const handleHover = (e) => {
     setHoveredImage(true)
