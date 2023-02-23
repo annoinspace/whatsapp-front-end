@@ -27,42 +27,6 @@ export default function ProfileImageOptions({ avatar }) {
     setShow(true)
   }
 
-  // function getCroppedImg() {
-  //   const canvas = document.createElement("canvas")
-  //   const scaleX = image.naturalWidth / image.width
-  //   const scaleY = image.naturalHeight / image.height
-  //   canvas.width = crop.width
-  //   canvas.height = crop.height
-  //   const ctx = canvas.getContext("2d")
-  //   ctx.drawImage(
-  //     image,
-  //     crop.x * scaleX,
-  //     crop.y * scaleY,
-  //     crop.width * scaleX,
-  //     crop.height * scaleY,
-  //     0,
-  //     0,
-  //     crop.width,
-  //     crop.height
-  //   )
-  //   const base64Image = canvas.toDataURL("image/jpeg")
-  //   // console.log("base64Image", base64Image)
-  //   // const url = URL.createObjectURL(dataURItoBlob(base64Image))
-  //   // console.log("url", url)
-  //   const blob = dataURItoBlob(base64Image)
-  //   const formData = new FormData()
-  //   if (formData) {
-  //     formData.append("file", blob, "image.jpeg")
-
-  //     console.log("formData", formData)
-  //     setResult(formData)
-  //     setProfileImage(base64Image)
-  //     setShow(false)
-  //     dispatch(sendImageToBackend(formData))
-  //   } else {
-  //     console.log("error creating form data")
-  //   }
-  // }
   function cropImg() {
     return new Promise((resolve, reject) => {
       const canvas = document.createElement("canvas")
@@ -85,7 +49,7 @@ export default function ProfileImageOptions({ avatar }) {
       const base64Image = canvas.toDataURL("image/jpeg")
       const blob = dataURItoBlob(base64Image)
       const formData = new FormData()
-      formData.append("file", blob, "image.jpeg")
+      formData.append("avatar", blob, "image.jpeg")
 
       setResult(formData)
       setProfileImage(base64Image)
@@ -126,9 +90,8 @@ export default function ProfileImageOptions({ avatar }) {
   useEffect(() => {
     if (result !== null) {
       dispatch(toggleProfileImageOptions(false))
-      // console.log("profileImage", profileImage)
+
       dispatch(setProfilePicture(profileImage))
-      // console.log("profileImage result", result)
     }
   }, [result, dispatch])
 

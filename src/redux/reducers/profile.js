@@ -11,7 +11,8 @@ import {
   SET_PROFILE_PICTURE,
   SET_ABOUT,
   SET_DISPLAYNAME,
-  LOG_OUT_USER
+  LOG_OUT_USER,
+  SET_ALL_USERS
 } from "../actions/profileAction"
 
 const initialState = {
@@ -103,6 +104,11 @@ const profileReducer = (state = initialState, action) => {
           ...state.currentUser,
           displayName: action.payload
         }
+      }
+    case SET_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload
       }
 
     default:

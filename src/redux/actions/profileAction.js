@@ -12,6 +12,9 @@ export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
 export const LOG_OUT_USER = "LOG_OUT_USER"
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
+
+export const SET_ALL_USERS = "SET_ALL_USERS"
+
 const baseEndpoint = process.env.REACT_APP_BE_URL
 
 export const setAccessToken = (accessToken) => ({
@@ -207,21 +210,6 @@ export const setProfilePicture = (payload) => {
   }
 }
 
-export const changeAbout = (about) => {
-  console.log("logging the about change", about)
-  return {
-    type: "SET_ABOUT",
-    payload: about
-  }
-}
-// export const changeDisplayName = (displayName) => {
-//   console.log("logging the displayName change", displayName)
-//   return {
-//     type: "SET_DISPLAYNAME",
-//     payload: displayName
-//   }
-// }
-
 export const changeDisplayName = (displayName) => {
   console.log("displayName", displayName)
   return async (dispatch) => {
@@ -252,29 +240,35 @@ export const changeDisplayName = (displayName) => {
   }
 }
 
-// export const sendImageToBackend = (formData) => {
-//   const accessToken = localStorage.getItem("accessToken")
-//   console.log("backend recieved image")
-//   return async (dispatch) => {
-//     const options = {
-//       method: "POST",
-//       body: formData,
-//       headers: {
-//         "Content-Type": `multipart/form-data; boundary=XXX`,
-//         Authorization: "Bearer " + accessToken
-//       }
-//     }
-//     try {
-//       const response = await fetch(baseEndpoint + "/users/me/avatar", options)
-//       if (response.ok) console.log("----------response", response)
-//       else {
-//         console.log("----error occured with fetching----")
-//       }
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
+export const changeAbout = (about) => {
+  console.log("about", about)
+  return async (dispatch) => {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({ about: about }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    }
+    try {
+      console.log("options", options)
+      const response = await fetch(baseEndpoint + "/users/me", options)
+      if (response.ok) {
+        console.log(response)
+        dispatch({
+          type: "SET_ABOUT",
+          payload: about
+        })
+        console.log("about Changed successfully ")
+      } else {
+        console.log("there was an error in changing the display name")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 export const sendImageToBackend = (formData) => {
   const accessToken = localStorage.getItem("accessToken")
@@ -288,7 +282,7 @@ export const sendImageToBackend = (formData) => {
       method: "POST",
       body: formData,
       headers: {
-        "Content-Type": `multipart/form-data; boundary=XXX`,
+        // "Content-Type": `multipart/form-data; boundary=XXX`,
         Authorization: "Bearer " + accessToken
       }
     }
@@ -296,9 +290,41 @@ export const sendImageToBackend = (formData) => {
     try {
       console.log("logging in the try catch send image action")
       const response = await fetch(baseEndpoint + "/users/me/avatar", options)
-      if (response.ok) console.log("----------response", response)
-      else {
+      if (response.ok) {
+        console.log("----------response", response)
+      } else {
         console.log("----error occured with fetching----")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const getAllUsers = (user) => {
+  return async (dispatch) => {
+    try {
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      }
+      const response = await fetch(baseEndpoint + "/users/", options)
+      if (response.ok) {
+        const users = await response.json()
+
+        const filteredUsers = users.filter((u) => u._id !== user._id)
+        if (filteredUsers) {
+          dispatch({
+            type: SET_ALL_USERS,
+            payload: filteredUsers
+          })
+        }
+        console.log("all users", filteredUsers)
+      } else {
+        console.log("error getting users")
       }
     } catch (error) {
       console.log(error)

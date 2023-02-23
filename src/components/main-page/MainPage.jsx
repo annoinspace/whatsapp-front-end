@@ -10,16 +10,19 @@ import blankImage from "../../assets/blank-profile-picture.png"
 import SearchChat from "./SearchChat"
 import MyProfileSettings from "./MyProfileSettings"
 import OpenChat from "./OpenChat"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { getAllUsers } from "../../redux/actions/profileAction"
 
 export default function MainPage() {
+  const dispatch = useDispatch()
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
   const user = useSelector((state) => state.loadedProfile.currentUser)
+  const allUsers = useSelector((state) => state.loadedProfile.allUsers)
+  // console.log("all users in main page", allUsers)
+
   const profileImage = user.avatar
 
   const avatar = profileImage ? profileImage : blankImage
-
-  console.log("current user details", user)
 
   const showMyProfileHandler = () => {
     console.log("profile image clicked")
@@ -31,6 +34,9 @@ export default function MainPage() {
   }
   useEffect(() => {
     console.log("profile image changed")
+    console.log("current user", user)
+    console.log("getting all users")
+    dispatch(getAllUsers(user))
   }, [profileImage])
 
   return (
