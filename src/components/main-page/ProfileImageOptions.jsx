@@ -4,6 +4,7 @@ import { ListGroup, Image, Modal, Button } from "react-bootstrap"
 import "react-image-crop/dist/ReactCrop.css"
 import ReactCrop from "react-image-crop"
 import {
+  sendImageToBackend,
   setProfilePicture,
   showFullProfileImageAction,
   toggleProfileImageOptions
@@ -26,31 +27,56 @@ export default function ProfileImageOptions({ avatar }) {
     setShow(true)
   }
 
-  function getCroppedImg() {
-    console.log("image cropped before", profileImage)
-    const canvas = document.createElement("canvas")
-    const scaleX = image.naturalWidth / image.width
-    const scaleY = image.naturalHeight / image.height
-    canvas.width = crop.width
-    canvas.height = crop.height
-    const ctx = canvas.getContext("2d")
-    ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      crop.width,
-      crop.height
-    )
-    const base64Image = canvas.toDataURL("image/jpeg")
+  function cropImg() {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement("canvas")
+      const scaleX = image.naturalWidth / image.width
+      const scaleY = image.naturalHeight / image.height
+      canvas.width = crop.width
+      canvas.height = crop.height
+      const ctx = canvas.getContext("2d")
+      ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height
+      )
+      const base64Image = canvas.toDataURL("image/jpeg")
+      const blob = dataURItoBlob(base64Image)
+      const formData = new FormData()
+      formData.append("avatar", blob, "image.jpeg")
 
-    setResult(base64Image)
-    setProfileImage(base64Image)
+      setResult(formData)
+      setProfileImage(base64Image)
+      setShow(false)
 
-    setShow(false)
+      // Return the Promise
+      resolve(formData)
+    })
+  }
+
+  async function getCroppedImg() {
+    console.log("getting cropped img")
+    const formData = await cropImg()
+    if (formData) {
+      console.log("formData", formData)
+      dispatch(sendImageToBackend(formData))
+    }
+  }
+
+  function dataURItoBlob(dataURI) {
+    const byteString = atob(dataURI.split(",")[1])
+    const ab = new ArrayBuffer(byteString.length)
+    const ia = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([ab], { type: "image/jpeg" })
   }
 
   const viewPhotoHandler = () => {
@@ -64,9 +90,8 @@ export default function ProfileImageOptions({ avatar }) {
   useEffect(() => {
     if (result !== null) {
       dispatch(toggleProfileImageOptions(false))
-      console.log("profileImage", profileImage)
+
       dispatch(setProfilePicture(profileImage))
-      // console.log("profileImage result", result)
     }
   }, [result, dispatch])
 

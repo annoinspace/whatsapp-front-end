@@ -9,10 +9,14 @@ export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
 export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 export const SET_ABOUT = "SET_ABOUT"
 export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
-
+export const LOG_OUT_USER = "LOG_OUT_USER"
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
+
+export const SET_ALL_USERS = "SET_ALL_USERS"
+
 const baseEndpoint = process.env.REACT_APP_BE_URL
+
 export const setAccessToken = (accessToken) => ({
   type: SET_ACCESS_TOKEN,
   payload: accessToken
@@ -77,60 +81,14 @@ export const getAccessToken = (loggingInAuthor) => {
   }
 }
 
-// export const getProfileInfo = (config, setLoading, setError) => {
-//   return async (dispatch, getState) => {
-//     try {
-//       console.log("inside the getProfileInfo action------ passsed access token")
-//       const url = process.env.REACT_APP_BE_URL + "/users/me"
-//       const response = await fetch(url, config)
-
-//       if (response.ok) {
-//         console.log("logging the successful rezponse", response)
-//         const tokens = await response.json()
-
-//         localStorage.setItem("accessToken", tokens.accessToken)
-//         localStorage.setItem("currentUser", JSON.stringify(tokens.user))
-
-//         dispatch({
-//           type: SET_USER_INFO,
-//           payload: tokens.user
-//         })
-//         dispatch({
-//           type: SET_ACCESS_TOKEN,
-//           payload: tokens.accessToken
-//         })
-//       } else {
-//         setError(true)
-//       }
-//     } catch (error) {
-//       console.log(error)
-//       setError(true)
-//     }
-//   }
-// }
-
-export const logoutUser = (user) => {
-  return async (dispatch, getState) => {
+export const logoutUser = () => {
+  return (dispatch) => {
     try {
-      const config = {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-        })
-      }
-
-      const url = process.env.REACT_APP_BE_URL + "/users/me"
-
-      const response = await fetch(url, config)
-
-      localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
-
       dispatch({
-        type: SET_USER_INFO,
+        type: LOG_OUT_USER,
         payload: null
       })
+      localStorage.removeItem("accessToken")
     } catch (error) {
       console.log(error)
     }
@@ -252,17 +210,124 @@ export const setProfilePicture = (payload) => {
   }
 }
 
-export const changeAbout = (about) => {
-  console.log("logging the about change", about)
-  return {
-    type: "SET_ABOUT",
-    payload: about
+export const changeDisplayName = (displayName) => {
+  console.log("displayName", displayName)
+  return async (dispatch) => {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({ displayName: displayName }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    }
+    try {
+      console.log("options", options)
+      const response = await fetch(baseEndpoint + "/users/me", options)
+      if (response.ok) {
+        console.log(response)
+        dispatch({
+          type: "SET_DISPLAYNAME",
+          payload: displayName
+        })
+        console.log("displayName Changed successfully ")
+      } else {
+        console.log("there was an error in changing the display name")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
-export const changeDisplayName = (about) => {
-  console.log("logging the about change", about)
-  return {
-    type: "SET_DISPLAYNAME",
-    payload: about
+
+export const changeAbout = (about) => {
+  console.log("about", about)
+  return async (dispatch) => {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({ about: about }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    }
+    try {
+      console.log("options", options)
+      const response = await fetch(baseEndpoint + "/users/me", options)
+      if (response.ok) {
+        console.log(response)
+        dispatch({
+          type: "SET_ABOUT",
+          payload: about
+        })
+        console.log("about Changed successfully ")
+      } else {
+        console.log("there was an error in changing the display name")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const sendImageToBackend = (formData) => {
+  const accessToken = localStorage.getItem("accessToken")
+  return async (dispatch) => {
+    if (!formData) {
+      console.log("No file uploaded in frontend")
+      return
+    }
+
+    const options = {
+      method: "POST",
+      body: formData,
+      headers: {
+        // "Content-Type": `multipart/form-data; boundary=XXX`,
+        Authorization: "Bearer " + accessToken
+      }
+    }
+
+    try {
+      console.log("logging in the try catch send image action")
+      const response = await fetch(baseEndpoint + "/users/me/avatar", options)
+      if (response.ok) {
+        console.log("----------response", response)
+      } else {
+        console.log("----error occured with fetching----")
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const getAllUsers = (user) => {
+  return async (dispatch) => {
+    try {
+      const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+        }
+      }
+      const response = await fetch(baseEndpoint + "/users/", options)
+      if (response.ok) {
+        const users = await response.json()
+
+        const filteredUsers = users.filter((u) => u._id !== user._id)
+        if (filteredUsers) {
+          dispatch({
+            type: SET_ALL_USERS,
+            payload: filteredUsers
+          })
+        }
+        console.log("all users", filteredUsers)
+      } else {
+        console.log("error getting users")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
