@@ -10,6 +10,7 @@ export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 export const SET_ABOUT = "SET_ABOUT"
 export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
 export const LOG_OUT_USER = "LOG_OUT_USER"
+export const SET_CHAT_PARTICIPANT = "SET_CHAT_PARTICIPANT"
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 
@@ -85,13 +86,24 @@ export const logoutUser = () => {
   return (dispatch) => {
     try {
       dispatch({
-        type: LOG_OUT_USER,
+        type: "LOG_OUT_USER",
+        payload: null
+      })
+      dispatch({
+        type: "SET_CHAT_PARTICIPANT",
         payload: null
       })
       localStorage.removeItem("accessToken")
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export const setCurrentChatParticipant = (user) => {
+  return {
+    type: "SET_CHAT_PARTICIPANT",
+    payload: user
   }
 }
 
