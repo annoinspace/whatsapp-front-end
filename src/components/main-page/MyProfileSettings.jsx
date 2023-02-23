@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
-import { Image } from "react-bootstrap"
+import { Button, Image } from "react-bootstrap"
 import blankImage from "../../assets/blank-profile-picture.png"
 import { RiPencilFill } from "react-icons/ri"
 import { BsCameraFill } from "react-icons/bs"
 import ProfileImageOptions from "./ProfileImageOptions"
 import FullProfileImage from "./FullProfileImage"
-import { changeAbout, changeDisplayName, toggleProfileImageOptions } from "../../redux/actions/profileAction"
+import {
+  changeAbout,
+  changeDisplayName,
+  logoutUser,
+  toggleProfileImageOptions
+} from "../../redux/actions/profileAction"
 
 export default function MyProfileSettings() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const [hoveredImage, setHoveredImage] = useState(false)
   // const profileImage = useSelector((state) => state.loadedProfile.myProfilePicture)
@@ -60,6 +67,11 @@ export default function MyProfileSettings() {
     setIsEditingDisplayName(false)
     console.log("display name saved", displayName)
     dispatch(changeDisplayName(displayName))
+  }
+
+  const handleLogout = () => {
+    dispatch(logoutUser(user))
+    navigate("/login")
   }
 
   useEffect(() => {
@@ -122,6 +134,9 @@ export default function MyProfileSettings() {
           </div>
         )}
       </div>
+      <Button variant="danger" className="mt-5" onClick={handleLogout}>
+        Logout
+      </Button>
     </>
   )
 }

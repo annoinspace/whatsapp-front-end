@@ -43,12 +43,12 @@
   flex-direction: row;
   box-sizing: border-box;
 }
-#green-banner {
+/* #green-banner {
   background-color: var(--whatsapp-green);
   height: 20px;
   width: 100vw;
   z-index: 100;
-}
+} */
 /* -------------- top profile section---------------- */
 #my-profile {
   background-color: var(--light-gray);

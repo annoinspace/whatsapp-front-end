@@ -10,7 +10,8 @@ import {
   SET_ACCESS_TOKEN,
   SET_PROFILE_PICTURE,
   SET_ABOUT,
-  SET_DISPLAYNAME
+  SET_DISPLAYNAME,
+  LOG_OUT_USER
 } from "../actions/profileAction"
 
 const initialState = {
@@ -44,6 +45,12 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         currentUser: action.payload
+      }
+    case LOG_OUT_USER:
+      return {
+        ...state,
+
+        currentUser: null
       }
     case SET_ACTIVE_CHAT:
       return {

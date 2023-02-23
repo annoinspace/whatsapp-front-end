@@ -9,6 +9,7 @@ export const TOGGLE_PROFILE_IMAGE_OPTIONS = "TOGGLE_PROFILE_IMAGE_OPTIONS"
 export const SET_PROFILE_PICTURE = "SET_PROFILE_PICTURE"
 export const SET_ABOUT = "SET_ABOUT"
 export const SET_DISPLAYNAME = "SET_DISPLAYNAME"
+export const LOG_OUT_USER = "LOG_OUT_USER"
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 const baseEndpoint = process.env.REACT_APP_BE_URL
@@ -77,28 +78,14 @@ export const getAccessToken = (loggingInAuthor) => {
   }
 }
 
-export const logoutUser = (user) => {
-  return async (dispatch, getState) => {
+export const logoutUser = () => {
+  return (dispatch) => {
     try {
-      const config = {
-        method: "DELETE",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-        })
-      }
-
-      const url = process.env.REACT_APP_BE_URL + "/users/me"
-
-      const response = await fetch(url, config)
-
-      localStorage.removeItem("accessToken")
-      localStorage.removeItem("refreshToken")
-
       dispatch({
-        type: SET_USER_INFO,
+        type: LOG_OUT_USER,
         payload: null
       })
+      localStorage.removeItem("accessToken")
     } catch (error) {
       console.log(error)
     }
@@ -258,6 +245,7 @@ export const changeDisplayName = (about) => {
 //     }
 //   }
 // }
+
 export const sendImageToBackend = (formData) => {
   const accessToken = localStorage.getItem("accessToken")
   return async (dispatch) => {
