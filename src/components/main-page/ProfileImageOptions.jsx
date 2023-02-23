@@ -96,7 +96,6 @@ export default function ProfileImageOptions({ avatar }) {
     })
   }
 
-  // Call the function with async/await
   async function getCroppedImg() {
     console.log("getting cropped img")
     const formData = await cropImg()

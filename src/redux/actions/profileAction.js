@@ -214,11 +214,41 @@ export const changeAbout = (about) => {
     payload: about
   }
 }
-export const changeDisplayName = (about) => {
-  console.log("logging the about change", about)
-  return {
-    type: "SET_DISPLAYNAME",
-    payload: about
+// export const changeDisplayName = (displayName) => {
+//   console.log("logging the displayName change", displayName)
+//   return {
+//     type: "SET_DISPLAYNAME",
+//     payload: displayName
+//   }
+// }
+
+export const changeDisplayName = (displayName) => {
+  console.log("displayName", displayName)
+  return async (dispatch) => {
+    const options = {
+      method: "PUT",
+      body: JSON.stringify({ displayName: displayName }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+      }
+    }
+    try {
+      console.log("options", options)
+      const response = await fetch(baseEndpoint + "/users/me", options)
+      if (response.ok) {
+        console.log(response)
+        dispatch({
+          type: "SET_DISPLAYNAME",
+          payload: displayName
+        })
+        console.log("displayName Changed successfully ")
+      } else {
+        console.log("there was an error in changing the display name")
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

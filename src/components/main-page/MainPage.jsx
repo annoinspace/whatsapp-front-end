@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react"
 import "./mainCss.css"
 import SingleChatSidebar from "./SingleChatSidebar"
 import { ListGroup } from "react-bootstrap"
-
 import { RiTeamFill } from "react-icons/ri"
 import { TbCircleDashed } from "react-icons/tb"
 import { AiOutlinePlus, AiOutlineArrowLeft } from "react-icons/ai"
