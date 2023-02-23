@@ -22,15 +22,6 @@ const initialState = {
   viewProfileImage: false,
   profileImageOptions: false,
   // myProfilePicture: null,
-  currentUserTest: {
-    _id: "63f5ef074d5ec50434acc64c",
-    avatar: false,
-    username: "annoinspace",
-    email: "anno@gmail.com",
-    displayName: "edit name",
-    about: "edit bio",
-    chats: []
-  }
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -74,8 +65,8 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         myProfilePicture: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        currentUser: {
+          ...state.currentUser,
           avatar: action.payload
         }
       }
@@ -83,8 +74,8 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         about: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        currentUser: {
+          ...state.currentUser,
           about: action.payload
         }
       }
@@ -92,8 +83,8 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         displayName: action.payload,
-        currentUserTest: {
-          ...state.currentUserTest,
+        currentUser: {
+          ...state.currentUser,
           displayName: action.payload
         }
       }

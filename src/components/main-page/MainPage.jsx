@@ -7,7 +7,6 @@ import { RiTeamFill } from "react-icons/ri"
 import { TbCircleDashed } from "react-icons/tb"
 import { AiOutlinePlus, AiOutlineArrowLeft } from "react-icons/ai"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
-import blankImage from "../../assets/blank-profile-picture.png"
 import SearchChat from "./SearchChat"
 import MyProfileSettings from "./MyProfileSettings"
 import OpenChat from "./OpenChat"
@@ -16,10 +15,9 @@ import { useSelector } from "react-redux"
 export default function MainPage() {
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
   const myProfile = useSelector((state) => state.loadedProfile.currentUser)
-  const testUser = useSelector((state) => state.loadedProfile.currentUserTest)
-  const profileImage = testUser.avatar
+  const profileImage = myProfile.avatar === undefined ? "../../assets/blank-profile-picture.png" : myProfile.avatar
   console.log("profileImage", profileImage)
-  const avatar = profileImage ? profileImage : blankImage
+  const avatar = "../../assets/blank-profile-picture.png"
 
   console.log("current user details", myProfile)
 
