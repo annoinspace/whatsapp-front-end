@@ -257,7 +257,11 @@ hoveredProfileImage#full-profile-image-wrapper {
 
 #chat-info {
   background-color: var(--light-gray);
-  height: 55px;
+  height: 60px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 #chat {
   align-self: stretch;

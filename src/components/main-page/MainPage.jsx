@@ -77,20 +77,7 @@ export default function MainPage() {
               </div>
               <SearchChat />
               <ListGroup id="all-chats" className="">
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
-                <SingleChatSidebar />
+                {allUsers && allUsers.map((user) => <SingleChatSidebar key={user._id} user={user} />)}
               </ListGroup>
             </>
           )}
