@@ -7,7 +7,6 @@ import { RiTeamFill } from "react-icons/ri"
 import { TbCircleDashed } from "react-icons/tb"
 import { AiOutlinePlus, AiOutlineArrowLeft } from "react-icons/ai"
 import { HiOutlineDotsHorizontal } from "react-icons/hi"
-import blankImage from "../../assets/blank-profile-picture.png"
 import SearchChat from "./SearchChat"
 import MyProfileSettings from "./MyProfileSettings"
 import OpenChat from "./OpenChat"
@@ -16,8 +15,9 @@ import { useSelector } from "react-redux"
 export default function MainPage() {
   const [viewProfileSettings, setViewProfileSettings] = useState(false)
   const myProfile = useSelector((state) => state.loadedProfile.currentUser)
-  // const myProfileImage = myProfile.avatar
-  // const profileImage = myProfileImage ? myProfileImage : blankImage
+  const profileImage = myProfile.avatar === undefined ? "../../assets/blank-profile-picture.png" : myProfile.avatar
+  console.log("profileImage", profileImage)
+  const avatar = "../../assets/blank-profile-picture.png"
 
   console.log("current user details", myProfile)
 
@@ -29,6 +29,9 @@ export default function MainPage() {
     console.log("going back to chats")
     setViewProfileSettings(false)
   }
+  useEffect(() => {
+    console.log("profile image changed")
+  }, [profileImage])
 
   return (
     <div id="main-page-container" className="">
@@ -53,7 +56,7 @@ export default function MainPage() {
                   <div
                     onClick={showMyProfileHandler}
                     className="my-profile-image"
-                    style={{ backgroundImage: `url(${blankImage})` }}
+                    style={{ backgroundImage: `url(${avatar})` }}
                   ></div>
                   <div className=" d-flex main-icons">
                     <RiTeamFill />
