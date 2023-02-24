@@ -21,6 +21,7 @@ export default function OpenChat() {
   const [sentMessages, setSentMessages] = useState([])
   const [hasLoadedChat, setHasLoadedChat] = useState(false)
   const [socketId, setSocketId] = useState(null)
+  const [currentChatId, setCurrentChatId] = useState(null)
 
   useEffect(() => {
     socket.on("welcome", (welcomeMessage) => {
@@ -58,6 +59,8 @@ export default function OpenChat() {
 
       socket.on("existingChat", (chatId) => {
         console.log("Chat existing")
+        console.log("existing chat id----------->", chatId)
+        setCurrentChatId(chatId)
         // LOAD CHAT WITH HTTP REQUEST
 
         dispatch(loadChat(chatId))
@@ -129,6 +132,7 @@ export default function OpenChat() {
         console.log("loading active chat")
         dispatch(loadChat(activeChat._id))
         setHasLoadedChat(true)
+        socket.emit("openChat", currentChatId)
       } else if (participant !== null) {
         console.log("creating new chat")
         const newChatId = dispatch(createChat([participant._id]))
