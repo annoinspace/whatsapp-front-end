@@ -201,10 +201,11 @@ export default function OpenChat() {
       </div>
 
       <div id="chat">
-        {sentMessages.map((msg, index) => (
-          <div key={index}>{msg}</div>
-        ))}
-      </div>
+  {sentMessages.map((msg, index) => (
+    <div key={index} style={{backgroundColor: "lightgreen", borderBottom: "2px solid black"}}>{msg} <span style={{opacity: .7}}>{"from"}</span> <strong>{user.username}</strong> <br></br><span>{new Date().toLocaleTimeString("en-uk")}</span></div>
+  ))}
+</div>
+
       <div id="add-message">
         <div className="d-flex justify-content-around align-items-top border">
           <BsEmojiSmile />
