@@ -15,6 +15,7 @@ export const SET_CHAT_PARTICIPANT = "SET_CHAT_PARTICIPANT"
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN"
 
 export const SET_ALL_USERS = "SET_ALL_USERS"
+export const SET_ONLINE_USERS = "SET_ONLINE_USERS"
 
 const baseEndpoint = process.env.REACT_APP_BE_URL
 
@@ -192,6 +193,13 @@ export const createChat = (participants) => {
     } catch (error) {
       console.log(error)
     }
+  }
+}
+
+export const setOnlineUsers = (onlineUsers) => {
+  return {
+    type: "SET_ONLINE_USERS",
+    payload: onlineUsers
   }
 }
 
