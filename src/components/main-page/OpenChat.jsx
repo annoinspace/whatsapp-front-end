@@ -104,10 +104,11 @@ export default function OpenChat() {
   const handleChange = (e) => {
     setMessage(e.target.value)
   }
+
   useEffect(() => {
     console.log("all messages", sentMessages)
-    socket.on("newMessage", {message: sentMessages})
-  }, [sentMessages])
+    socket.on("newMessage", { message: sentMessages })
+  }, [])
 
   useEffect(() => {
     if (currentChatParticipant !== null) {
@@ -202,10 +203,13 @@ export default function OpenChat() {
       </div>
 
       <div id="chat">
-  {sentMessages.map((msg, index) => (
-    <div key={index} style={{backgroundColor: "lightgreen", borderBottom: "2px solid black"}}>{msg} <span style={{opacity: .7}}>{"from"}</span> <strong>{user.username}</strong> <br></br><span>{new Date().toLocaleTimeString("en-uk")}</span></div>
-  ))}
-</div>
+        {sentMessages.map((msg, index) => (
+          <div key={index} style={{ backgroundColor: "lightgreen", borderBottom: "2px solid black" }}>
+            {msg} <span style={{ opacity: 0.7 }}>{"from"}</span> <strong>{user.username}</strong> <br></br>
+            <span>{new Date().toLocaleTimeString("en-uk")}</span>
+          </div>
+        ))}
+      </div>
 
       <div id="add-message">
         <div className="d-flex justify-content-around align-items-top border">
