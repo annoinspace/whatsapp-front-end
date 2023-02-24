@@ -20,8 +20,24 @@ export default function OpenChat() {
   const [message, setMessage] = useState("")
   const [sentMessages, setSentMessages] = useState([])
   const [hasLoadedChat, setHasLoadedChat] = useState(false)
+  const [socketId, setSocketId] = useState(null)
+
+  useEffect(() => {
+    socket.on("welcome", (welcomeMessage) => {
+      console.log("welcome message top", welcomeMessage)
+    })
+  }, [])
 
   const handleSocketConnect = (socket, currentUser, attemptedRecipients, setNewMessages, dispatch) => {
+    socket.on("welcome", (welcomeMessage) => {
+      console.log("----welcome message in handle socket---", welcomeMessage)
+    })
+    socket.on("socketId", (socketId) => {
+      console.log("Received socket ID:", socketId)
+      setSocketId(socketId)
+    })
+    console.log("-----------------Socket connected--------------", socketId)
+
     const userDetailsObject = {
       userName: user.username,
       _id: user._id
@@ -63,30 +79,23 @@ export default function OpenChat() {
   const setNewMessages = (newMessages) => {
     setSentMessages(newMessages)
   }
-  // export interface Message {
-  //   sender: string;
-  //   content: {
-  //     text?: string;
-  //     media?: string;
-  //   };
-  //   timestamp: number;
-  // }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(message)
     setSentMessages([...sentMessages, message])
-    setMessage("")
 
     const newMessage = {
       sender: user._id,
       content: {
         text: message
       },
-      timeStamp: new Date().toLocaleString("en-UK")
+      timestamp: new Date().toLocaleString("en-UK")
     }
 
     socket.emit("sendMessage", { message: newMessage })
     console.log("new message sending...", newMessage)
+    setMessage("")
   }
 
   const handleChange = (e) => {
