@@ -106,6 +106,7 @@ export default function OpenChat() {
   }
   useEffect(() => {
     console.log("all messages", sentMessages)
+    socket.on("newMessage", {message: sentMessages})
   }, [sentMessages])
 
   useEffect(() => {
