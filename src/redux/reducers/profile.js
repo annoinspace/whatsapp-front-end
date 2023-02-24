@@ -13,7 +13,8 @@ import {
   SET_DISPLAYNAME,
   LOG_OUT_USER,
   SET_ALL_USERS,
-  SET_CHAT_PARTICIPANT
+  SET_CHAT_PARTICIPANT,
+  SET_ONLINE_USERS
 } from "../actions/profileAction"
 
 const initialState = {
@@ -24,7 +25,8 @@ const initialState = {
   allUsers: [], // object array of all users in DB
   viewProfileImage: false,
   profileImageOptions: false,
-  currentChatParticipant: null
+  currentChatParticipant: null,
+  onlineUsers: []
   // myProfilePicture: null,
 }
 
@@ -109,6 +111,11 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         currentChatParticipant: action.payload
+      }
+    case SET_ONLINE_USERS:
+      return {
+        ...state,
+        onlineUsers: action.payload
       }
 
     default:

@@ -6,17 +6,17 @@ import { Form } from "react-bootstrap"
 import { BsEmojiSmile } from "react-icons/bs"
 import { GrAttachment, GrMicrophone } from "react-icons/gr"
 import { io } from "socket.io-client"
-import { createChat, loadChat } from "../../redux/actions/profileAction"
+import { createChat, loadChat, setOnlineUsers } from "../../redux/actions/profileAction"
 // import { handleSocketConnect } from "../../socket"
 
 const socket = io(process.env.REACT_APP_BE_URL, { transports: ["websocket"] })
 export default function OpenChat() {
   const dispatch = useDispatch()
   const [participant, setParticipant] = useState(null)
-
   const user = useSelector((state) => state.loadedProfile.currentUser)
   const currentChatParticipant = useSelector((state) => state.loadedProfile.currentChatParticipant)
   const activeChat = useSelector((state) => state.loadedProfile.activeChat)
+
   const [message, setMessage] = useState("")
   const [sentMessages, setSentMessages] = useState([])
   const [hasLoadedChat, setHasLoadedChat] = useState(false)
@@ -38,6 +38,24 @@ export default function OpenChat() {
       socket.emit("checkChats", attemptedRecipients)
       socket.on("errorCheckingChats", (error) => {
         console.log("Error checking chats:", error)
+      })
+
+      socket.on("existingChat", (chatId) => {
+        console.log("Chat existing")
+        // LOAD CHAT WITH HTTP REQUEST
+
+        dispatch(loadChat(chatId))
+        console.log("Chat ID:", chatId)
+        socket.emit("openChat", chatId)
+      })
+
+      socket.on("noExistingChat", (chats) => {
+        console.log("No chat existing")
+        // CREATE CHAT WITH HTTP REQUEST
+
+        const newChatId = dispatch(createChat(attemptedRecipients))
+
+        socket.emit("openChat", newChatId)
       })
     })
   }
@@ -85,6 +103,8 @@ export default function OpenChat() {
       setParticipant(currentChatParticipant)
       console.log(participant)
       if (participant) {
+        const userDetailsObject = { username: participant.username, _id: participant._id }
+        socket.emit("connectReceiveInfo", userDetailsObject)
         const attemptedRecipients = [user._id, currentChatParticipant._id]
         socket.emit("checkChats", attemptedRecipients)
         console.log("--------sending the 2 user id's---------")
@@ -124,18 +144,24 @@ export default function OpenChat() {
   useEffect(() => {
     console.log("connecting socket")
     const socket = io(process.env.REACT_APP_BE_URL)
-
     if (activeChat !== null) {
       handleSocketConnect(socket, user, activeChat.participants, setNewMessages, dispatch)
     } else if (participant !== null) {
       handleSocketConnect(socket, user, [participant._id], setNewMessages, dispatch)
     }
-
     return () => {
       console.log("disconnecting socket")
       socket.disconnect()
     }
   }, [])
+
+  useEffect(() => {
+    console.log("-------logging the online users -------")
+    socket.on("NewConnection", (OnlineUsers) => {
+      console.log("Online Users from BE ----->", OnlineUsers)
+      dispatch(setOnlineUsers(OnlineUsers))
+    })
+  }, [dispatch])
 
   return (
     <div className="d-flex flex-column h-100">
